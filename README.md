@@ -39,9 +39,13 @@ If no category fits your roll, you must enter 0 somewhere — choose wisely!
 
 ## Screenshots
 
-<img src="docs/screenshot-1.jpg" width="260" alt="Screenshot"> <img src="docs/screenshot-3.jpg" width="260" alt="Screenshot"> <img src="docs/screenshot-2.jpg" width="260" alt="Screenshot">
+Ukrainian:
 
-<img src="docs/screenshot-4.jpg" width="260" alt="Screenshot"> <img src="docs/screenshot-5.jpg" width="260" alt="Screenshot"> <img src="docs/screenshot-6.jpg" width="260" alt="Screenshot">
+<img src="docs/screenshot-uk-1-home.jpg" width="200" alt="Home screen (Ukrainian)"> <img src="docs/screenshot-uk-2-score-table.jpg" width="200" alt="Score table (Ukrainian)"> <img src="docs/screenshot-uk-3-dice.jpg" width="200" alt="Dice roller (Ukrainian)"> <img src="docs/screenshot-uk-4-settings.jpg" width="200" alt="Settings (Ukrainian)">
+
+English:
+
+<img src="docs/screenshot-en-1-home.jpg" width="200" alt="Home screen"> <img src="docs/screenshot-en-2-score-table.jpg" width="200" alt="Score table"> <img src="docs/screenshot-en-3-dice.jpg" width="200" alt="Dice roller"> <img src="docs/screenshot-en-4-settings.jpg" width="200" alt="Settings">
 
 ---
 
