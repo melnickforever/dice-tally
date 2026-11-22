@@ -9,22 +9,22 @@ import {
   listSaveSlots, generateSlotFilename, writeSaveSlot, loadSaveSlot, deleteSaveSlot,
 } from '../fileIO';
 import { ScoreCell } from './ScoreCell';
-import { YahtzeeBonusCell } from './YahtzeeBonusCell';
+import { FiveKindBonusCell } from './FiveKindBonusCell';
 import { SaveSlotsModal } from './SaveSlotsModal';
 
 interface Props {
   language: Language;
   scores: ScoresData;
   onScoreChange: (category: CategoryKey, value: number | null) => void;
-  yahtzeeBonus: number;
-  onYahtzeeBonusChange: (value: number) => void;
+  fiveKindBonus: number;
+  onFiveKindBonusChange: (value: number) => void;
   onClearScores: () => void;
-  onLoadGame: (data: { scores: ScoresData; yahtzeeBonus: number; name?: string; language?: Language }) => void;
+  onLoadGame: (data: { scores: ScoresData; fiveKindBonus: number; name?: string; language?: Language }) => void;
   playerName: string;
 }
 
 export function ScoreTable({
-  language, scores, onScoreChange, yahtzeeBonus, onYahtzeeBonusChange, onClearScores, onLoadGame, playerName,
+  language, scores, onScoreChange, fiveKindBonus, onFiveKindBonusChange, onClearScores, onLoadGame, playerName,
 }: Props) {
   const t = translations[language];
   const [showClearConfirm, setShowClearConfirm] = useState(false);
@@ -39,16 +39,16 @@ export function ScoreTable({
     };
   }, []);
 
-  const checkYahtzeeBonusLocked = (bonus: number | null) => 
+  const checkFiveKindBonusLocked = (bonus: number | null) => 
     bonus === null || bonus === 0;
 
-  const isYahtzeeBonusLocked = checkYahtzeeBonusLocked(scores.yahtzee);
+  const isFiveKindBonusLocked = checkFiveKindBonusLocked(scores.fiveOfAKind);
 
   useEffect(() => {
-    if (isYahtzeeBonusLocked) {
-      onYahtzeeBonusChange(0);
+    if (isFiveKindBonusLocked) {
+      onFiveKindBonusChange(0);
     }
-  }, [isYahtzeeBonusLocked, onYahtzeeBonusChange]);
+  }, [isFiveKindBonusLocked, onFiveKindBonusChange]);
 
   const handleClearScores = () => {
     onClearScores();
@@ -86,7 +86,7 @@ export function ScoreTable({
         name: playerName,
         language,
         scores,
-        yahtzeeBonus,
+        fiveKindBonus,
         savedAt: new Date().toISOString(),
       });
       setSlotsModalMode(null);
@@ -98,12 +98,12 @@ export function ScoreTable({
   };
 
   const handleNewSave = () => writeCurrentGameToSlot(
-    generateSlotFilename(playerName, grandTotal(scores, yahtzeeBonus), slots.map((s) => s.filename))
+    generateSlotFilename(playerName, grandTotal(scores, fiveKindBonus), slots.map((s) => s.filename))
   );
 
   const handleSaveToSlot = async (slot: SaveSlot) => {
     const otherFilenames = slots.filter((s) => s.filename !== slot.filename).map((s) => s.filename);
-    const newFilename = generateSlotFilename(playerName, grandTotal(scores, yahtzeeBonus), otherFilenames);
+    const newFilename = generateSlotFilename(playerName, grandTotal(scores, fiveKindBonus), otherFilenames);
     const success = await writeCurrentGameToSlot(newFilename);
     if (success && newFilename !== slot.filename) {
       await deleteSaveSlot(slot.filename).catch(() => {});
@@ -134,10 +134,10 @@ export function ScoreTable({
   const ut = upperTotal(scores);
   const lt = lowerTotal(scores);
   const ub = upperBonus(ut);
-  const gt = grandTotal(scores, yahtzeeBonus);
+  const gt = grandTotal(scores, fiveKindBonus);
 
   const upperCategories: CategoryKey[] = ['ones', 'twos', 'threes', 'fours', 'fives', 'sixes'];
-  const lowerCategories: CategoryKey[] = ['threeOfAKind', 'fourOfAKind', 'fullHouse', 'smallStraight', 'largeStraight', 'yahtzee', 'chance'];
+  const lowerCategories: CategoryKey[] = ['threeOfAKind', 'fourOfAKind', 'fullHouse', 'smallStraight', 'largeStraight', 'fiveOfAKind', 'chance'];
 
   const renderRow = (categoryKey: CategoryKey, categoryName: string, isEven: boolean) => (
     <View key={categoryKey} style={[styles.row, isEven ? styles.rowEven : styles.rowOdd]}>
@@ -215,12 +215,12 @@ export function ScoreTable({
           <Text style={[styles.subtotalValue, styles.scoreColWidth]}>{lt}</Text>
         </View>
         <View style={styles.bonusRow}>
-          <Text style={[styles.bonusText, { flex: 1 }]}>{t.bonuses.yahtzeeBonus}</Text>
+          <Text style={[styles.bonusText, { flex: 1 }]}>{t.bonuses.fiveKindBonus}</Text>
           <View style={styles.scoreColWidth}>
-            <YahtzeeBonusCell
-              value={yahtzeeBonus}
-              onChange={onYahtzeeBonusChange}
-              disabled={isYahtzeeBonusLocked}
+            <FiveKindBonusCell
+              value={fiveKindBonus}
+              onChange={onFiveKindBonusChange}
+              disabled={isFiveKindBonusLocked}
             />
           </View>
         </View>

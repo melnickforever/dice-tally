@@ -32,10 +32,10 @@ font_subtitle = load_font(28)
 font_tagline  = load_font(22)
 
 # --- title ---
-draw.text((W//2, 155), "YAHTZEE", font=font_title, fill=BROWN, anchor="mm")
+draw.text((W//2, 155), "DICE TALLY", font=font_title, fill=BROWN, anchor="mm")
 
 # --- subtitle ---
-draw.text((W//2, 210), "Classic Dice Game", font=font_subtitle, fill=BROWN + (150,) if False else (180, 120, 60), anchor="mm")
+draw.text((W//2, 210), "Dice Scorekeeper", font=font_subtitle, fill=BROWN + (150,) if False else (180, 120, 60), anchor="mm")
 
 # --- 5 dice (fan layout, centred) ---
 DICE  = 72

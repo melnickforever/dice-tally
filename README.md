@@ -1,6 +1,6 @@
-# Yahtzee Mobile
+# Dice Tally
 
-A React Native / Expo scorekeeper for playing Yahtzee with real dice — built together with my sons **Pavlo** and **Mykhailo**. Many thanks, guys, for the ideas, testing, and development spirit that shaped this app!
+A React Native / Expo scorekeeper for five-dice games played with real dice — built together with my sons **Pavlo** and **Mykhailo**. Many thanks, guys, for the ideas, testing, and development spirit that shaped this app!
 
 > **Tip:** Tap the app logo to enter **mini dice game mode** and roll dice right inside the app.
 
@@ -8,7 +8,7 @@ A React Native / Expo scorekeeper for playing Yahtzee with real dice — built t
 
 ## How to Play
 
-Yahtzee is a dice game for 2 or more players. Each turn you roll five dice up to three times, trying to score points in 13 categories. The player with the highest grand total wins.
+Dice Tally is a scorekeeper for a five-dice game for 2 or more players. Each turn you roll five dice up to three times, trying to score points in 13 categories. The player with the highest grand total wins.
 
 **On your turn:**
 1. Roll all five dice.
@@ -26,12 +26,12 @@ Yahtzee is a dice game for 2 or more players. Each turn you roll five dice up to
 | Full House | 25 |
 | Small Straight (4 in a row) | 30 |
 | Large Straight (5 in a row) | 40 |
-| Yahtzee (all 5 the same) | 50 |
+| Five of a Kind (all 5 the same) | 50 |
 | Chance | Sum of all dice |
 
 **Upper section bonus:** if your ones–sixes total is 63 or more, you get +35 bonus points.
 
-**Yahtzee bonus:** each extra Yahtzee after the first scores +100, but only if you originally scored 50 in the Yahtzee box (not 0).
+**Five-of-a-Kind bonus:** each extra five of a kind after the first scores +100, but only if you originally scored 50 in the Five of a Kind box (not 0).
 
 If no category fits your roll, you must enter 0 somewhere — choose wisely!
 
@@ -39,16 +39,16 @@ If no category fits your roll, you must enter 0 somewhere — choose wisely!
 
 ## Screenshots
 
-<img src="docs/yahtzee1.jpg" width="260" alt="Screenshot"> <img src="docs/Yathzee3.jpg" width="260" alt="Screenshot"> <img src="docs/Yahtzee2.jpg" width="260" alt="Screenshot">
+<img src="docs/screenshot-1.jpg" width="260" alt="Screenshot"> <img src="docs/screenshot-3.jpg" width="260" alt="Screenshot"> <img src="docs/screenshot-2.jpg" width="260" alt="Screenshot">
 
-<img src="docs/Yahtzee4.jpg" width="260" alt="Screenshot"> <img src="docs/Yathzee5.jpg" width="260" alt="Screenshot"> <img src="docs/Yahtzee6.jpg" width="260" alt="Screenshot">
+<img src="docs/screenshot-4.jpg" width="260" alt="Screenshot"> <img src="docs/screenshot-5.jpg" width="260" alt="Screenshot"> <img src="docs/screenshot-6.jpg" width="260" alt="Screenshot">
 
 ---
 
 ## Features
 
 - Score table  with automatic totals and bonuses
-- Upper section bonus, Yahtzee bonus picker (0–1000 in steps of 100)
+- Upper section bonus, Five-of-a-Kind bonus picker (0–1000 in steps of 100)
 - Save / open game state across multiple named save slots stored on-device
 - 24-hour auto-save via AsyncStorage — pick up where you left off
 - Built-in dice roller with roll animation and kept/free zones (up to 3 rolls per turn)

@@ -1,9 +1,10 @@
 import * as FileSystem from 'expo-file-system/legacy';
+import { migrateLegacyKeys } from './legacy';
 import { CategoryKey, Language, SavedGame, ScoresData } from './types';
 
 const ALL_CATEGORY_KEYS: CategoryKey[] = [
   'ones', 'twos', 'threes', 'fours', 'fives', 'sixes',
-  'threeOfAKind', 'fourOfAKind', 'fullHouse', 'smallStraight', 'largeStraight', 'yahtzee', 'chance',
+  'threeOfAKind', 'fourOfAKind', 'fullHouse', 'smallStraight', 'largeStraight', 'fiveOfAKind', 'chance',
 ];
 
 const SAVES_DIR = `${FileSystem.documentDirectory ?? ''}saves/`;
@@ -19,9 +20,9 @@ export interface SaveSlot {
   label: string;
 }
 
-export function validateGameData(data: unknown): data is { scores: ScoresData; yahtzeeBonus: number; name?: string; language?: Language } {
+export function validateGameData(data: unknown): data is { scores: ScoresData; fiveKindBonus: number; name?: string; language?: Language } {
   if (typeof data !== 'object' || data === null) return false;
-  const obj = data as Record<string, unknown>;
+  const obj = migrateLegacyKeys(data) as Record<string, unknown>;
 
   if (typeof obj.scores !== 'object' || obj.scores === null) return false;
   const s = obj.scores as Record<string, unknown>;
@@ -30,8 +31,8 @@ export function validateGameData(data: unknown): data is { scores: ScoresData; y
     if (s[key] !== null && typeof s[key] !== 'number') return false;
   }
 
-  if (typeof obj.yahtzeeBonus !== 'number') return false;
-  if (obj.yahtzeeBonus < 0 || obj.yahtzeeBonus > 1000 || obj.yahtzeeBonus % 100 !== 0) return false;
+  if (typeof obj.fiveKindBonus !== 'number') return false;
+  if (obj.fiveKindBonus < 0 || obj.fiveKindBonus > 1000 || obj.fiveKindBonus % 100 !== 0) return false;
 
   if ('language' in obj && obj.language !== 'uk' && obj.language !== 'en') return false;
   if ('name' in obj && typeof obj.name !== 'string') return false;
@@ -78,7 +79,7 @@ export async function writeSaveSlot(filename: string, state: SavedGame): Promise
   await FileSystem.writeAsStringAsync(SAVES_DIR + filename, JSON.stringify(state, null, 2));
 }
 
-export async function loadSaveSlot(filename: string): Promise<{ scores: ScoresData; yahtzeeBonus: number; name?: string; language?: Language }> {
+export async function loadSaveSlot(filename: string): Promise<{ scores: ScoresData; fiveKindBonus: number; name?: string; language?: Language }> {
   const text = await FileSystem.readAsStringAsync(SAVES_DIR + filename);
   let data: unknown;
   try {
@@ -87,7 +88,7 @@ export async function loadSaveSlot(filename: string): Promise<{ scores: ScoresDa
     throw new InvalidGameFileError();
   }
   if (!validateGameData(data)) throw new InvalidGameFileError();
-  return data;
+  return migrateLegacyKeys(data);
 }
 
 export async function deleteSaveSlot(filename: string): Promise<void> {

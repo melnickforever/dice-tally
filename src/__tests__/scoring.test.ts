@@ -5,7 +5,7 @@ import { ScoresData } from '../types';
 const empty: ScoresData = {
   ones: null, twos: null, threes: null, fours: null, fives: null, sixes: null,
   threeOfAKind: null, fourOfAKind: null, fullHouse: null, smallStraight: null,
-  largeStraight: null, yahtzee: null, chance: null,
+  largeStraight: null, fiveOfAKind: null, chance: null,
 };
 
 describe('upperTotal', () => {
@@ -69,7 +69,7 @@ describe('grandTotal', () => {
     expect(grandTotal({ ...empty, ones: 3 }, 0)).toBe(3);
   });
 
-  it('adds yahtzeeBonus to total', () => {
+  it('adds fiveKindBonus to total', () => {
     expect(grandTotal(empty, 300)).toBe(300);
   });
 
@@ -83,7 +83,7 @@ describe('getFixedValue', () => {
   it('returns 25 for fullHouse', () => expect(getFixedValue('fullHouse')).toBe(25));
   it('returns 30 for smallStraight', () => expect(getFixedValue('smallStraight')).toBe(30));
   it('returns 40 for largeStraight', () => expect(getFixedValue('largeStraight')).toBe(40));
-  it('returns 50 for yahtzee', () => expect(getFixedValue('yahtzee')).toBe(50));
+  it('returns 50 for fiveOfAKind', () => expect(getFixedValue('fiveOfAKind')).toBe(50));
 
   it('returns null for free-value categories', () => {
     expect(getFixedValue('ones')).toBeNull();
@@ -112,7 +112,7 @@ describe('getMaxValue', () => {
     expect(getMaxValue('fullHouse')).toBeNull();
     expect(getMaxValue('smallStraight')).toBeNull();
     expect(getMaxValue('largeStraight')).toBeNull();
-    expect(getMaxValue('yahtzee')).toBeNull();
+    expect(getMaxValue('fiveOfAKind')).toBeNull();
   });
 });
 
@@ -136,7 +136,7 @@ describe('getStepValue', () => {
     expect(getStepValue('fullHouse')).toBeNull();
     expect(getStepValue('smallStraight')).toBeNull();
     expect(getStepValue('largeStraight')).toBeNull();
-    expect(getStepValue('yahtzee')).toBeNull();
+    expect(getStepValue('fiveOfAKind')).toBeNull();
   });
 });
 

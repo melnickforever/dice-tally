@@ -25,10 +25,10 @@ export function RulesReference({ language }: Props) {
     { combination: rt.fullHouse, description: rt.fullHouseDesc, points: rt.fullHousePoints },
     { combination: rt.smallStraight, description: rt.smallStraightDesc, points: rt.smallStraightPoints },
     { combination: rt.largeStraight, description: rt.largeStraightDesc, points: rt.largeStraightPoints },
-    { combination: rt.yahtzee, description: rt.yahtzeeDesc, points: rt.yahtzeePoints },
+    { combination: rt.fiveOfAKind, description: rt.fiveOfAKindDesc, points: rt.fiveOfAKindPoints },
     { combination: rt.chance, description: rt.chanceDesc, points: rt.sumOfAll },
     { combination: rt.upperBonus, description: rt.upperBonusDesc, points: rt.upperBonusPoints },
-    { combination: rt.yahtzeeBonus, description: rt.yatzheeBonusDesc, points: rt.yatzheeBonusPoints },
+    { combination: rt.fiveKindBonus, description: rt.fiveKindBonusDesc, points: rt.fiveKindBonusPoints },
   ];
 
   return (
@@ -55,7 +55,7 @@ export function RulesReference({ language }: Props) {
             <Text style={styles.body}>• {s.gameplay3}</Text>
 
             <Text style={styles.h3}>{s.specialTitle}</Text>
-            <Text style={styles.body}>• {s.yahtzeeBonus}</Text>
+            <Text style={styles.body}>• {s.fiveKindBonus}</Text>
             <Text style={styles.body}>• {s.jokerRule}</Text>
             <Text style={styles.body}>• {s.zeroRule}</Text>
 

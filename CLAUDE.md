@@ -23,11 +23,11 @@ npm run android
 
 ## Architecture
 
-This is a React Native / Expo port of a Next.js Yahtzee web app (`/Users/dmytromelnyk/projects/pets/yahtzee`). Feature parity with the web version is the goal.
+This is a React Native / Expo port of a Next.js dice-scorekeeper web app (formerly named after a trademarked game; avoid that name) (`/Users/dmytromelnyk/projects/pets/yahtzee`). Feature parity with the web version is the goal.
 
 **Entry point:** `index.ts` → `App.tsx`
 
-`App.tsx` owns all top-level state (`language`, `playerName`, `scores`, `yahtzeeBonus`, `gameActive`, `isLoaded`) and wires together the components. It handles AsyncStorage hydration on mount and persistence on every state change.
+`App.tsx` owns all top-level state (`language`, `playerName`, `scores`, `fiveKindBonus`, `gameActive`, `isLoaded`) and wires together the components. It handles AsyncStorage hydration on mount and persistence on every state change.
 
 ### `src/` layout
 
@@ -36,14 +36,14 @@ This is a React Native / Expo port of a Next.js Yahtzee web app (`/Users/dmytrom
 | `types.ts` | Shared types: `CategoryKey`, `ScoresData`, `SavedGame`, `PersistedState`, `Language` |
 | `i18n.ts` | All UI strings for `uk` (default) and `en`. Pure TS, no React. |
 | `scoring.ts` | Pure functions: `upperTotal`, `lowerTotal`, `upperBonus`, `grandTotal`, `getFixedValue` |
-| `storage.ts` | AsyncStorage wrapper — 24 h sliding expiry on key `yahtzee-game-state` |
+| `storage.ts` | AsyncStorage wrapper — 24 h sliding expiry on key `dice-tally-game-state` (legacy key `yahtzee-game-state` is migrated on load, see `legacy.ts`) |
 | `fileIO.ts` | Save (expo-sharing) and open (expo-document-picker + expo-file-system/legacy) JSON game files. Contains `validateGameData`. |
 
 ### Components
 
-- **`ScoreTable`** — renders both score grids, computes totals via `scoring.ts`, calls `fileIO.ts` for save/open. Each row uses `ScoreCell`; the Yahtzee bonus row uses `YahtzeeBonusCell`.
+- **`ScoreTable`** — renders both score grids, computes totals via `scoring.ts`, calls `fileIO.ts` for save/open. Each row uses `ScoreCell`; the Five-of-a-Kind bonus row uses `FiveKindBonusCell`.
 - **`ScoreCell`** — two modes: free numeric (`TextInput`) or fixed-value (`Modal` with 3 options). Determined by the `fixedValue` prop (`null` = free).
-- **`YahtzeeBonusCell`** — `Modal` picker for 0–1000 in steps of 100.
+- **`FiveKindBonusCell`** — `Modal` picker for 0–1000 in steps of 100.
 - **`DiceGame`** — 5 dice via `react-native-svg`, kept/free zones, max 3 rolls per turn. Registers `BackHandler` so Android back button exits the game. Uses `setInterval` (8 × 80 ms) for roll animation.
 - **`DiceLogo`** — same SVG dice with fan rotation, `Animated` bounce loop before first tap.
 - **`RulesReference`** — collapsible panel; rules table wrapped in `<ScrollView horizontal>`.

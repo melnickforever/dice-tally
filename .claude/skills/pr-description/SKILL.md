@@ -4,7 +4,7 @@ description: Generate a pull request description for this repo. Use when the use
 version: 1.0.0
 ---
 
-# PR description generator — Yahtzee mobile
+# PR description generator — Dice Tally mobile
 
 Produce a consistent, ready-to-paste PR description for the current branch, comparing against `main`.
 

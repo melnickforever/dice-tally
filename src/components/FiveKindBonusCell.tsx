@@ -10,7 +10,7 @@ interface Props {
 
 const OPTIONS = Array.from({ length: 11 }, (_, i) => i * 100);
 
-export function YahtzeeBonusCell({ value, onChange, disabled }: Props) {
+export function FiveKindBonusCell({ value, onChange, disabled }: Props) {
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
