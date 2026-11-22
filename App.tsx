@@ -24,7 +24,7 @@ import { PlayerNameSection } from './src/components/PlayerNameSection';
 const defaultScores: ScoresData = {
   ones: null, twos: null, threes: null, fours: null, fives: null, sixes: null,
   threeOfAKind: null, fourOfAKind: null, fullHouse: null,
-  smallStraight: null, largeStraight: null, yahtzee: null, chance: null,
+  smallStraight: null, largeStraight: null, fiveOfAKind: null, chance: null,
 };
 
 
@@ -34,7 +34,7 @@ export default function App() {
   const [isPlayerNameSaved, setIsPlayerNameSaved] = useState(false);
   const [gameActive, setGameActive] = useState(false);
   const [scores, setScores] = useState<ScoresData>(defaultScores);
-  const [yahtzeeBonus, setYahtzeeBonus] = useState<number>(0);
+  const [fiveKindBonus, setFiveKindBonus] = useState<number>(0);
   const [soundEnabled, setSoundEnabled] = useState<boolean>(true);
   const [isLoaded, setIsLoaded] = useState(false);
   const [fontsLoaded] = useFonts({ Lexend_400Regular, Lexend_500Medium, Lexend_600SemiBold, Lexend_700Bold, Lexend_800ExtraBold });
@@ -47,7 +47,7 @@ export default function App() {
     loadGameState().then((data) => {
       if (data) {
         setScores(data.scores ?? defaultScores);
-        setYahtzeeBonus(data.yahtzeeBonus ?? 0);
+        setFiveKindBonus(data.fiveKindBonus ?? 0);
         setPlayerName(data.playerName ?? '');
         setLanguage(resolveLanguage(data.language));
         setSoundEnabled(data.soundEnabled ?? true);
@@ -59,8 +59,8 @@ export default function App() {
 
   useEffect(() => {
     if (!isLoaded) return;
-    saveGameState({ scores, yahtzeeBonus, playerName, language, soundEnabled });
-  }, [isLoaded, scores, yahtzeeBonus, playerName, language, soundEnabled]);
+    saveGameState({ scores, fiveKindBonus, playerName, language, soundEnabled });
+  }, [isLoaded, scores, fiveKindBonus, playerName, language, soundEnabled]);
 
   const handleScoreChange = useCallback((category: CategoryKey, value: number | null) => {
     setScores((prev) => ({ ...prev, [category]: value }));
@@ -68,12 +68,12 @@ export default function App() {
 
   const handleClearScores = useCallback(() => {
     setScores(defaultScores);
-    setYahtzeeBonus(0);
+    setFiveKindBonus(0);
   }, []);
 
-  const handleLoadGame = useCallback((data: { scores: ScoresData; yahtzeeBonus: number; name?: string; language?: Language }) => {
+  const handleLoadGame = useCallback((data: { scores: ScoresData; fiveKindBonus: number; name?: string; language?: Language }) => {
     setScores(data.scores);
-    setYahtzeeBonus(data.yahtzeeBonus);
+    setFiveKindBonus(data.fiveKindBonus);
     if (data.name !== undefined) {
       setPlayerName(data.name);
       setIsPlayerNameSaved(!!data.name);
@@ -99,7 +99,7 @@ export default function App() {
         <View style={styles.loadingScreen}>
           <StatusBar barStyle="dark-content" backgroundColor="#f4efe6" />
           <DiceLogo language="uk" onEnterGame={() => {}} gameActive={true} soundEnabled={false} />
-          <Text style={styles.loadingTitle}>Yahtzee</Text>
+          <Text style={styles.loadingTitle}>Dice Tally</Text>
         </View>
       </SafeAreaProvider>
     );
@@ -150,8 +150,8 @@ export default function App() {
                 language={language}
                 scores={scores}
                 onScoreChange={handleScoreChange}
-                yahtzeeBonus={yahtzeeBonus}
-                onYahtzeeBonusChange={setYahtzeeBonus}
+                fiveKindBonus={fiveKindBonus}
+                onFiveKindBonusChange={setFiveKindBonus}
                 onClearScores={handleClearScores}
                 onLoadGame={handleLoadGame}
                 playerName={playerName}

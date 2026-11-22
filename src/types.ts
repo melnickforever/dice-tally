@@ -14,7 +14,7 @@ export type CategoryKey =
   | 'fullHouse'
   | 'smallStraight'
   | 'largeStraight'
-  | 'yahtzee'
+  | 'fiveOfAKind'
   | 'chance';
 
 export type ScoresData = Record<CategoryKey, number | null>;
@@ -24,13 +24,13 @@ export interface SavedGame {
   name: string;
   language: Language;
   scores: ScoresData;
-  yahtzeeBonus: number;
+  fiveKindBonus: number;
   savedAt: string;
 }
 
 export interface PersistedState {
   scores: ScoresData;
-  yahtzeeBonus: number;
+  fiveKindBonus: number;
   playerName: string;
   language: Language;
   soundEnabled: boolean;

@@ -1,13 +1,13 @@
 import { CategoryKey, ScoresData } from './types';
 
 const UPPER_CATEGORIES: CategoryKey[] = ['ones', 'twos', 'threes', 'fours', 'fives', 'sixes'];
-const LOWER_CATEGORIES: CategoryKey[] = ['threeOfAKind', 'fourOfAKind', 'fullHouse', 'smallStraight', 'largeStraight', 'yahtzee', 'chance'];
+const LOWER_CATEGORIES: CategoryKey[] = ['threeOfAKind', 'fourOfAKind', 'fullHouse', 'smallStraight', 'largeStraight', 'fiveOfAKind', 'chance'];
 
 const FIXED_VALUES: Partial<Record<CategoryKey, number>> = {
   fullHouse: 25,
   smallStraight: 30,
   largeStraight: 40,
-  yahtzee: 50,
+  fiveOfAKind: 50,
 };
 
 const MAX_VALUES: Partial<Record<CategoryKey, number>> = {
@@ -43,9 +43,9 @@ export function upperBonus(total: number): number {
   return total >= 63 ? 35 : 0;
 }
 
-export function grandTotal(scores: ScoresData, yahtzeeBonus: number): number {
+export function grandTotal(scores: ScoresData, fiveKindBonus: number): number {
   const ut = upperTotal(scores);
-  return ut + upperBonus(ut) + lowerTotal(scores) + yahtzeeBonus;
+  return ut + upperBonus(ut) + lowerTotal(scores) + fiveKindBonus;
 }
 
 export function getFixedValue(categoryKey: CategoryKey): number | null {

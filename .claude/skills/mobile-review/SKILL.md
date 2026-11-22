@@ -1,10 +1,10 @@
 ---
 name: mobile-review
-description: Code-review the Yahtzee Expo / React Native mobile app. Use when the user asks to "review", "code review", "mobile review", "check my changes", audit uncommitted work, or vet a diff in this repo. Checks Expo Go / RN pitfalls, CLAUDE.md adherence, AsyncStorage persistence correctness, and feature parity with the web reference at /Users/dmytromelnyk/projects/pets/yahtzee.
+description: Code-review the Dice Tally Expo / React Native mobile app. Use when the user asks to "review", "code review", "mobile review", "check my changes", audit uncommitted work, or vet a diff in this repo. Checks Expo Go / RN pitfalls, CLAUDE.md adherence, AsyncStorage persistence correctness, and feature parity with the web reference at /Users/dmytromelnyk/projects/pets/yahtzee.
 version: 1.0.0
 ---
 
-# Mobile code review — Yahtzee (Expo / React Native)
+# Mobile code review — Dice Tally (Expo / React Native)
 
 Review the currently changed code in this repo against the conventions in `CLAUDE.md`, common Expo / React Native pitfalls, and feature parity with the web reference app at `/Users/dmytromelnyk/projects/pets/yahtzee`.
 
@@ -40,12 +40,12 @@ Do not commit. Do not run `git add`, `git commit`, or push. `CLAUDE.md` says the
 ### State & persistence (AsyncStorage)
 - `App.tsx` owns all top-level state and persists on every change. New top-level state must be added to `PersistedState` in `types.ts`, serialized in `storage.ts`, AND hydrated on mount — all three or the feature silently resets between launches.
 - AsyncStorage is async — never read it synchronously in render. `isLoaded` gates the first render; new async reads need the same guard.
-- The storage key is `yahtzee-game-state` with 24 h sliding expiry. Don't change the key without a migration.
+- The storage key is `dice-tally-game-state` (legacy `yahtzee-game-state` is migrated) with 24 h sliding expiry. Don't change the key without a migration.
 - JSON file IO (`fileIO.ts`) has `validateGameData` — any new persisted field needs matching validation or a bad file will crash the app.
 
 ### Scoring & game logic
 - `src/scoring.ts` is pure. Keep it pure — no React, no AsyncStorage, no I/O. Flag any new side effects.
-- Upper / lower totals, upper bonus, Yahtzee bonus, and grand total must match the web app. If the diff changes any of these, diff-check against `/Users/dmytromelnyk/projects/pets/yahtzee`.
+- Upper / lower totals, upper bonus, Five-of-a-Kind bonus, and grand total must match the web app. If the diff changes any of these, diff-check against `/Users/dmytromelnyk/projects/pets/yahtzee`.
 - `getFixedValue` returns a fixed-score category value — the three-option modal in `ScoreCell` must stay in sync with it.
 - Max 3 rolls per turn in `DiceGame`. Kept / free dice zones are the canonical model — don't invent a third zone.
 

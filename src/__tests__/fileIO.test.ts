@@ -21,7 +21,7 @@ const SAVES_DIR = `${mockFs.documentDirectory}saves/`;
 const validScores = {
   ones: 3, twos: null, threes: 9, fours: null, fives: null, sixes: null,
   threeOfAKind: null, fourOfAKind: null, fullHouse: 25, smallStraight: null,
-  largeStraight: null, yahtzee: null, chance: null,
+  largeStraight: null, fiveOfAKind: null, chance: null,
 };
 
 function makeSavedGame(overrides: Partial<SavedGame> = {}): SavedGame {
@@ -30,7 +30,7 @@ function makeSavedGame(overrides: Partial<SavedGame> = {}): SavedGame {
     name: 'Alice',
     language: 'en',
     scores: validScores,
-    yahtzeeBonus: 0,
+    fiveKindBonus: 0,
     savedAt: '2026-01-01T00:00:00.000Z',
     ...overrides,
   };
@@ -38,17 +38,17 @@ function makeSavedGame(overrides: Partial<SavedGame> = {}): SavedGame {
 
 describe('validateGameData', () => {
   it('accepts valid data', () => {
-    expect(validateGameData({ scores: validScores, yahtzeeBonus: 0 })).toBe(true);
+    expect(validateGameData({ scores: validScores, fiveKindBonus: 0 })).toBe(true);
   });
 
   it('accepts optional name and language', () => {
-    expect(validateGameData({ scores: validScores, yahtzeeBonus: 200, name: 'Test', language: 'en' })).toBe(true);
-    expect(validateGameData({ scores: validScores, yahtzeeBonus: 200, language: 'uk' })).toBe(true);
+    expect(validateGameData({ scores: validScores, fiveKindBonus: 200, name: 'Test', language: 'en' })).toBe(true);
+    expect(validateGameData({ scores: validScores, fiveKindBonus: 200, language: 'uk' })).toBe(true);
   });
 
-  it('accepts yahtzeeBonus in multiples of 100 up to 1000', () => {
+  it('accepts fiveKindBonus in multiples of 100 up to 1000', () => {
     for (let b = 0; b <= 1000; b += 100) {
-      expect(validateGameData({ scores: validScores, yahtzeeBonus: b })).toBe(true);
+      expect(validateGameData({ scores: validScores, fiveKindBonus: b })).toBe(true);
     }
   });
 
@@ -59,34 +59,34 @@ describe('validateGameData', () => {
   });
 
   it('rejects missing scores field', () => {
-    expect(validateGameData({ yahtzeeBonus: 0 })).toBe(false);
+    expect(validateGameData({ fiveKindBonus: 0 })).toBe(false);
   });
 
   it('rejects missing score category', () => {
     const { ones, ...rest } = validScores;
-    expect(validateGameData({ scores: rest, yahtzeeBonus: 0 })).toBe(false);
+    expect(validateGameData({ scores: rest, fiveKindBonus: 0 })).toBe(false);
   });
 
   it('rejects score value that is not number or null', () => {
-    expect(validateGameData({ scores: { ...validScores, ones: 'bad' }, yahtzeeBonus: 0 })).toBe(false);
+    expect(validateGameData({ scores: { ...validScores, ones: 'bad' }, fiveKindBonus: 0 })).toBe(false);
   });
 
-  it('rejects yahtzeeBonus out of range', () => {
-    expect(validateGameData({ scores: validScores, yahtzeeBonus: -100 })).toBe(false);
-    expect(validateGameData({ scores: validScores, yahtzeeBonus: 1100 })).toBe(false);
+  it('rejects fiveKindBonus out of range', () => {
+    expect(validateGameData({ scores: validScores, fiveKindBonus: -100 })).toBe(false);
+    expect(validateGameData({ scores: validScores, fiveKindBonus: 1100 })).toBe(false);
   });
 
-  it('rejects yahtzeeBonus not a multiple of 100', () => {
-    expect(validateGameData({ scores: validScores, yahtzeeBonus: 150 })).toBe(false);
-    expect(validateGameData({ scores: validScores, yahtzeeBonus: 1 })).toBe(false);
+  it('rejects fiveKindBonus not a multiple of 100', () => {
+    expect(validateGameData({ scores: validScores, fiveKindBonus: 150 })).toBe(false);
+    expect(validateGameData({ scores: validScores, fiveKindBonus: 1 })).toBe(false);
   });
 
   it('rejects invalid language value', () => {
-    expect(validateGameData({ scores: validScores, yahtzeeBonus: 0, language: 'fr' })).toBe(false);
+    expect(validateGameData({ scores: validScores, fiveKindBonus: 0, language: 'fr' })).toBe(false);
   });
 
   it('rejects non-string name', () => {
-    expect(validateGameData({ scores: validScores, yahtzeeBonus: 0, name: 123 })).toBe(false);
+    expect(validateGameData({ scores: validScores, fiveKindBonus: 0, name: 123 })).toBe(false);
   });
 });
 
@@ -123,7 +123,7 @@ describe('save slot file operations', () => {
   });
 
   it('writes and lists a save slot', async () => {
-    await writeSaveSlot('Alice-100.json', makeSavedGame({ name: 'Alice', yahtzeeBonus: 100 }));
+    await writeSaveSlot('Alice-100.json', makeSavedGame({ name: 'Alice', fiveKindBonus: 100 }));
     const slots = await listSaveSlots();
     expect(slots).toEqual([{ filename: 'Alice-100.json', label: 'Alice-100' }]);
   });
@@ -140,17 +140,17 @@ describe('save slot file operations', () => {
   });
 
   it('loads a previously written slot back exactly', async () => {
-    const game = makeSavedGame({ name: 'Bob', yahtzeeBonus: 200 });
+    const game = makeSavedGame({ name: 'Bob', fiveKindBonus: 200 });
     await writeSaveSlot('Bob-88.json', game);
     const loaded = await loadSaveSlot('Bob-88.json');
     expect(loaded).toEqual(game);
   });
 
   it('overwrites a slot when writing the same filename twice', async () => {
-    await writeSaveSlot('Alice-0.json', makeSavedGame({ yahtzeeBonus: 0 }));
-    await writeSaveSlot('Alice-0.json', makeSavedGame({ yahtzeeBonus: 300 }));
+    await writeSaveSlot('Alice-0.json', makeSavedGame({ fiveKindBonus: 0 }));
+    await writeSaveSlot('Alice-0.json', makeSavedGame({ fiveKindBonus: 300 }));
     const loaded = await loadSaveSlot('Alice-0.json');
-    expect(loaded.yahtzeeBonus).toBe(300);
+    expect(loaded.fiveKindBonus).toBe(300);
     expect(await listSaveSlots()).toHaveLength(1);
   });
 

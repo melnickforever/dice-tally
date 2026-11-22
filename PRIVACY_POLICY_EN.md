@@ -1,6 +1,6 @@
 # Privacy Policy
 
-**Application:** Yahtzee
+**Application:** Dice Tally
 **Developer:** Dmytro Melnyk
 **Contact email:** dmytromelnyk.app@gmail.com
 **Effective date:** May 24, 2026
@@ -9,9 +9,9 @@
 
 ## 1. General Provisions
 
-This Privacy Policy describes how the mobile application **Yahtzee** (hereinafter — the "Application") handles user information. By installing and using the Application, you agree to the terms of this Policy.
+This Privacy Policy describes how the mobile application **Dice Tally** (hereinafter — the "Application") handles user information. By installing and using the Application, you agree to the terms of this Policy.
 
-The Application is a simple offline scorekeeper for the tabletop game "Yahtzee" played with real dice. It does not require registration, account creation, or an Internet connection for its core functionality.
+The Application is a simple offline scorekeeper for tabletop dice games played with real dice. It does not require registration, account creation, or an Internet connection for its core functionality.
 
 ## 2. What Data We Collect
 
@@ -78,7 +78,7 @@ Since all data is stored exclusively locally on the user's device, its security 
 
 All data stored locally by the Application can be deleted by the user at any time by:
 
-- clearing the Application's data via Android system settings (`Settings → Apps → Yahtzee → Storage → Clear Data`);
+- clearing the Application's data via Android system settings (`Settings → Apps → Dice Tally → Storage → Clear Data`);
 - uninstalling the Application from the device;
 - waiting 24 hours of inactivity (automatic deletion).
 
