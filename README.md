@@ -116,6 +116,8 @@ npx eas build --platform android
 
 Pre-built Android APKs are available in `RELEASE/Android/` and can be sideloaded directly without the Play Store.
 
+Latest: **1.2.0** — [`RELEASE/Android/DiceTally-1.2.0.apk`](RELEASE/Android/DiceTally-1.2.0.apk). Release notes: [`docs/pr/RELEASE_NOTES.md`](docs/pr/RELEASE_NOTES.md). Versions before 1.2.0 were published under the previous app name.
+
 ## Languages
 
 The app ships with two UI languages:
